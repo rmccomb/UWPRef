@@ -10,19 +10,21 @@
     <Grid>
 
         <TextBlock x:Name="appTitle" 
-        xmlns:appmodel="using:Windows.ApplicationModel"
-        Text="{x:Bind appmodel:Package.Current.DisplayName}" 
-        Style="{StaticResource CaptionTextBlockStyle}" 
-        IsHitTestVisible="False" 
-        Canvas.ZIndex="1"/>
+            xmlns:appmodel="using:Windows.ApplicationModel"
+            Text="{StaticResource AppName}" 
+            Style="{StaticResource CaptionTextBlockStyle}" 
+            IsHitTestVisible="False" 
+            Canvas.ZIndex="1" />
 
-        <!--<NavigationView Canvas.ZIndex="0" ... />-->
-    
         <NavigationView x:Name="NavView"
                         ItemInvoked="NavView_ItemInvoked"
                         SelectionChanged="NavView_SelectionChanged"
                         Loaded="NavView_Loaded"
-                        Canvas.ZIndex="0">
+                        Canvas.ZIndex="0" 
+                        DisplayModeChanged="NavView_DisplayModeChanged" 
+                        SizeChanged="NavView_SizeChanged"
+                        Tapped="NavView_Tapped"
+                        >
 
             <NavigationView.MenuItems>
                 <NavigationViewItem x:Uid="HomeNavItem" Content="Home" Tag="home">
@@ -30,20 +32,15 @@
                         <FontIcon Glyph="&#xE10F;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <!--<NavigationViewItemSeparator/>
-                <NavigationViewItemHeader Content="Main pages"/>
-                <NavigationViewItem x:Uid="AppsNavItem" Icon="AllApps" Content="Apps" Tag="apps"/>
-                <NavigationViewItem x:Uid="GamesNavItem" Icon="Video" Content="Games" Tag="games"/>
-                <NavigationViewItem x:Uid="MusicNavItem" Icon="Audio" Content="Music" Tag="music"/>-->
             </NavigationView.MenuItems>
 
-            <NavigationView.AutoSuggestBox>
+            <!--<NavigationView.AutoSuggestBox>
                 <AutoSuggestBox x:Name="ASB" QueryIcon="Find"/>
-            </NavigationView.AutoSuggestBox>
+            </NavigationView.AutoSuggestBox>-->
 
             <NavigationView.HeaderTemplate>
                 <DataTemplate>
-                    <Grid Margin="24,10,0,0">
+                    <Grid Margin="18,0,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition/>
@@ -52,6 +49,8 @@
                                FontSize="28"
                                VerticalAlignment="Center"
                                Text="Welcome"/>
+                        
+                        <!-- Command Bar -->
                         <CommandBar Grid.Column="1"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Top"
@@ -64,9 +63,9 @@
                 </DataTemplate>
             </NavigationView.HeaderTemplate>
 
-            <NavigationView.PaneFooter>
+            <!--<NavigationView.PaneFooter>
                 <TextBlock >Footer</TextBlock>
-            </NavigationView.PaneFooter>
+            </NavigationView.PaneFooter>-->
 
             <Frame x:Name="rootFrame" Navigated="OnRootFrameNavigated" Margin="24">
                 <Frame.ContentTransitions>

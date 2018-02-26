@@ -78,6 +78,11 @@ namespace UWPRef
         }
 
         /// <summary>
+        /// Extend the NavigationRootPage into the title panel
+        /// </summary>
+        public bool Extend = false;
+
+        /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
@@ -117,6 +122,8 @@ namespace UWPRef
 
         protected async override void OnActivated(IActivatedEventArgs args)
         {
+            Debug.WriteLine("App.OnActivated");
+
             await EnsureWindow(args);
 
             base.OnActivated(args);
@@ -137,7 +144,7 @@ namespace UWPRef
                 RootTheme = GetEnum<ElementTheme>(savedTheme);
             }
 
-            Type targetPageType = typeof(ItemPage);
+            Type targetPageType = typeof(HomePage);
             string targetPageArguments = string.Empty;
 
             if (args.Kind == ActivationKind.Launch)
@@ -193,18 +200,33 @@ namespace UWPRef
 
             rootFrame.Navigate(targetPageType, targetPageArguments);
 
-            //draw into the title bar
+            #region Draw into the title bar
             var coreTitleBar = Windows.ApplicationModel.Core.CoreApplication.GetCurrentView().TitleBar;
-            coreTitleBar.ExtendViewIntoTitleBar = true;
+            coreTitleBar.ExtendViewIntoTitleBar = this.Extend;
 
-            //remove the solid-colored backgrounds behind the caption controls and system back button
-            var viewTitleBar = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar;
-            viewTitleBar.ButtonBackgroundColor = Colors.Transparent;
-            viewTitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-            viewTitleBar.ButtonForegroundColor = (Color)Resources["SystemBaseHighColor"];
+            if (this.Extend)
+            {
+                // remove the solid-colored backgrounds behind the caption controls and system back button
+                var titleBar = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar;
+                titleBar.ButtonBackgroundColor = Colors.Transparent;
+                titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+                titleBar.ButtonForegroundColor = (Color)Resources["SystemBaseHighColor"];
 
-            Window.Current.CoreWindow.SizeChanged += (s, e) => UpdateAppTitle();
-            coreTitleBar.LayoutMetricsChanged += (s, e) => UpdateAppTitle();
+                Window.Current.CoreWindow.SizeChanged += (s, e) => UpdateAppTitle();
+                coreTitleBar.LayoutMetricsChanged += (s, e) => UpdateAppTitle();
+            }
+            else
+            {
+                // Darken the window title bar using a color value to match app theme
+                var titleBar = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar;
+                if (titleBar != null)
+                {
+                    Color titleBarColor = (Color)App.Current.Resources["SystemChromeMediumColor"];
+                    titleBar.BackgroundColor = titleBarColor;
+                    titleBar.ButtonBackgroundColor = titleBarColor;
+                }
+            }
+            #endregion
 
             //// Ensure the current window is active
             Window.Current.Activate();
@@ -231,6 +253,9 @@ namespace UWPRef
             else
             {
                 rootFrame = (Frame)rootPage.FindName("rootFrame");
+
+                rootPage.Extend = this.Extend;
+                rootPage.EnsureAppTitle();
             }
 
             return rootFrame;

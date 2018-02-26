@@ -4,10 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UWPRef.Controls;
 using UWPRef.Data;
-using Windows.Devices.Input;
-using Windows.Gaming.Input;
-using Windows.System.Profile;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Controls;
@@ -40,7 +39,10 @@ namespace UWPRef
             this.InitializeComponent();
             //_navHelper = new RootFrameNavigationHelper(rootFrame);
             Current = this;
-            RootFrame = this.rootFrame; 
+            RootFrame = this.rootFrame;
+
+            SystemNavigationManager.GetForCurrentView().BackRequested += SystemNavigationManager_BackRequested;
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
         }
 
         public PageHeader PageHeader
@@ -49,6 +51,38 @@ namespace UWPRef
             {
                 return _header ?? (_header = UIHelper.GetDescendantsOfType<PageHeader>(NavView).FirstOrDefault());
             }
+        }
+
+        #region BackRequested Handlers
+
+        private void SystemNavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            bool handled = e.Handled;
+            this.BackRequested(ref handled);
+            e.Handled = handled;
+        }
+
+        private void BackRequested(ref bool handled)
+        {
+            // Get a hold of the current frame so that we can inspect the app back stack.
+
+            if (RootFrame == null)
+                return;
+
+            // Check to see if this is the top-most page on the app back stack.
+            if (RootFrame.CanGoBack && !handled)
+            {
+                // If not, set the event to handled and go back to the previous page in the app.
+                handled = true;
+                RootFrame.GoBack();
+            }
+        }
+
+        #endregion
+
+        private void NavView_Loaded(object sender, RoutedEventArgs e)
+        {
+            AddNavigationMenuItems();
         }
 
         private void AddNavigationMenuItems()
@@ -71,26 +105,6 @@ namespace UWPRef
                 }
                 NavView.MenuItems.Add(item);
             }
-        }
-
-        private void NavView_Loaded(object sender, RoutedEventArgs e)
-        {
-            //NavView.MenuItems.Add(new NavigationViewItemSeparator());
-            NavView.MenuItems.Add(new NavigationViewItem()
-            { Content = "My content", Icon = new SymbolIcon(Symbol.Add), Tag = "content" });
-
-            //// set the initial SelectedItem 
-            //foreach (NavigationViewItemBase item in NavView.MenuItems)
-            //{
-            //    if (item is NavigationViewItem && item.Tag.ToString() == "apps")
-            //    {
-            //        NavView.SelectedItem = item;
-            //        break;
-            //    }
-            //}
-
-            AddNavigationMenuItems();
-
         }
 
         private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
@@ -148,6 +162,38 @@ namespace UWPRef
                 case "content":
                     rootFrame.Navigate(typeof(ItemPage));
                     break;
+            }
+        }
+
+        private void NavView_DisplayModeChanged(NavigationView sender, NavigationViewDisplayModeChangedEventArgs args)
+        {
+            EnsureAppTitle();
+        }
+
+        private void NavView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            EnsureAppTitle();
+        }
+
+        private void NavView_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            EnsureAppTitle();
+        }
+
+        public bool Extend { get; set; }
+
+        public void EnsureAppTitle()
+        {
+            if (Extend)
+            {
+                if (this.NavView.IsPaneOpen)
+                    this.appTitle.Visibility = Visibility.Visible;
+                else
+                    this.appTitle.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                this.appTitle.Visibility = Visibility.Collapsed;
             }
         }
     }

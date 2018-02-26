@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using UWPRef.Data;
 
-namespace UWPRef
+namespace UWPRef.Controls
 {
     public sealed partial class PageHeader : UserControl
     {

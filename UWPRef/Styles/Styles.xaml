@@ -1,10 +1,6 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:UWPRef.Styles">
-        <ResourceDictionary.MergedDictionaries>
-            <!--<local:ItemTemplates />-->
-        </ResourceDictionary.MergedDictionaries>
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
         <ResourceDictionary.ThemeDictionaries>
             <ResourceDictionary x:Key="Light">
@@ -24,30 +20,14 @@
             </ResourceDictionary>
         </ResourceDictionary.ThemeDictionaries>
 
-        <!--  Application-specific resources  -->
-        <!--<common:BooleanNegationConverter x:Key="negationConverter" />
-            <common:ValueToStringConverter x:Key="valueToStringConverter" />
-            <common:ColorStringConverter x:Key="colorStringConverter" />
-            <common:DoubleToIntConverter x:Key="doubleIntConverter" />
-            <common:ValueToFontFamilyConverter x:Key="valueToFontFamilyConverter" />
-            <common:ComboBoxItemToStringConverter x:Key="comboBoxItemToStringConverter" />
-            <common:BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
-            <common:NullableBooleanToBooleanConverter x:Key="nullableBooleanToBooleanConverter" />
-            <common:StringToBrushConverter x:Key="stringToBrushConverter" />
-            <common:NullToVisibilityConverter x:Key="nullToVisibilityConverter" />
-            <common:NullToVisibilityConverter x:Key="inverseNullToVisibilityConverter" NonNullValue="Collapsed" NullValue="Visible" />
-            <common:BooleanToValueConverter x:Key="booleanToValueConverter" />
-            <common:ShowAcrylicBehindHeaderConverter x:Key="showAcrylicBehindHeaderConverter" />-->
-
         <AcrylicBrush x:Key="NavigationViewDefaultPaneBackground"
-                BackgroundSource="Backdrop" TintColor="Yellow" TintOpacity=".6"/>
+                BackgroundSource="Backdrop" TintColor="Wheat" TintOpacity=".6"/>
         <AcrylicBrush x:Key="NavigationViewExpandedPaneBackground"
-                BackgroundSource="HostBackdrop" TintColor="Orange" TintOpacity=".8"/>
+                BackgroundSource="HostBackdrop" TintColor="White" TintOpacity=".6"/>
 
         <!--  Breakpoints  -->
         <x:Double x:Key="Breakpoint640Plus">641</x:Double>
-
-        <x:String x:Key="AppName">All controls</x:String>
+        <x:String x:Key="AppName">UWP Reference</x:String>
 
         <Style x:Key="XamlCodeRichTextBlockStyle" TargetType="RichTextBlock">
             <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
