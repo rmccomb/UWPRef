@@ -15,6 +15,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI;
+using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -91,6 +92,8 @@ namespace UWPRef
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             this.RequiresPointerMode = ApplicationRequiresPointerMode.WhenRequested;
+            PopulateJumpList();
+
         }
 
         void UpdateAppTitle()
@@ -118,6 +121,12 @@ namespace UWPRef
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
             await EnsureWindow(e);
+
+            if (e.Kind == ActivationKind.Launch && e.Arguments == "/jumplist:test-params")
+            {
+                // Run code relevant to the task that was selected.
+                Debug.WriteLine(e.Arguments);
+            }
         }
 
         protected async override void OnActivated(IActivatedEventArgs args)
@@ -222,6 +231,7 @@ namespace UWPRef
                 if (titleBar != null)
                 {
                     Color titleBarColor = (Color)App.Current.Resources["SystemChromeMediumColor"];
+                    //var titleBarColor = Colors.Bisque;
                     titleBar.BackgroundColor = titleBarColor;
                     titleBar.ButtonBackgroundColor = titleBarColor;
                 }
@@ -283,6 +293,19 @@ namespace UWPRef
             var deferral = e.SuspendingOperation.GetDeferral();
             await SuspensionManager.SaveAsync();
             deferral.Complete();
+        }
+
+        async void PopulateJumpList()
+        {
+            var jumpList = await JumpList.LoadCurrentAsync();
+            
+            var item = JumpListItem.CreateWithArguments("/jumplist:test-params" ,"Do Something");
+            item.Description = "Description text";
+            //item.GroupName = GroupName.Text;
+            //item.Logo = new Uri("ms-appx:///Assets/smalltile-sdk.png");
+            jumpList.Items.Clear();
+            jumpList.Items.Add(item);
+            await jumpList.SaveAsync();
         }
     }
 }

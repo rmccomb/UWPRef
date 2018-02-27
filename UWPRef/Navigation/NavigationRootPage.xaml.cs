@@ -148,18 +148,11 @@ namespace UWPRef
                     rootFrame.Navigate(typeof(HomePage));
                     break;
 
-                case "apps":
-                    rootFrame.Navigate(typeof(ItemPage));
+                case "main":
+                    rootFrame.Navigate(typeof(MainPage));
                     break;
 
-                case "games":
-                    rootFrame.Navigate(typeof(ItemPage));
-                    break;
-
-                case "music":
-                    rootFrame.Navigate(typeof(ItemPage));
-                    break;
-                case "content":
+                case "item1":
                     rootFrame.Navigate(typeof(ItemPage));
                     break;
             }

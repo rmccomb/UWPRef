@@ -1,7 +1,7 @@
 ﻿{
     "Items": [
         {
-            "UniqueId": "HelloWorld",
+            "UniqueId": "home",
             "Title": "Hello World",
             "Subtitle": "A subtitle",
             "ImagePath": "\uE128",
@@ -9,7 +9,15 @@
             "Content": "Some content"
         },
         {
-            "UniqueId": "AnItem",
+            "UniqueId": "main",
+            "Title": "Main",
+            "Subtitle": "A subtitle",
+            "ImagePath": "\uE136",
+            "Description": "A description",
+            "Content": "Some content"
+        },
+        {
+            "UniqueId": "item1",
             "Title": "An Item",
             "Subtitle": "A subtitle",
             "ImagePath": "\uE129",

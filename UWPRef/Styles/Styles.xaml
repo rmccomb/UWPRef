@@ -21,11 +21,13 @@
         </ResourceDictionary.ThemeDictionaries>
 
         <AcrylicBrush x:Key="NavigationViewDefaultPaneBackground"
-                BackgroundSource="Backdrop" TintColor="Wheat" TintOpacity=".6"/>
+                BackgroundSource="Backdrop" TintColor="Beige" TintOpacity=".6"/>
         <AcrylicBrush x:Key="NavigationViewExpandedPaneBackground"
-                BackgroundSource="HostBackdrop" TintColor="White" TintOpacity=".6"/>
+                BackgroundSource="HostBackdrop" TintColor="Beige" TintOpacity=".6"/>
+        <AcrylicBrush x:Key="AcrylicLightBackground" 
+                BackgroundSource="Backdrop" TintColor="Beige" TintOpacity=".6" />
 
-        <!--  Breakpoints  -->
+    <!--  Breakpoints  -->
         <x:Double x:Key="Breakpoint640Plus">641</x:Double>
         <x:String x:Key="AppName">UWP Reference</x:String>
 
